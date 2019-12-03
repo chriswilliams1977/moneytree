@@ -1,7 +1,7 @@
 // moneytree/customer-service/proto/customer/customer.proto
 syntax = "proto3";
 
-package customer; 
+package go.micro.srv.customer; 
 option go_package = "customerpb";
 
 service CustomerService {
