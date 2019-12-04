@@ -7,11 +7,6 @@ import (
 	"github.com/micro/go-micro"
 )
 
-// Default port for GRPC
-const (
-	port = ":50051"
-)
-
 func main() {
 
 	repo := &Repository{}

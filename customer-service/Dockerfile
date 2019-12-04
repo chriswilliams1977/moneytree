@@ -11,7 +11,7 @@ RUN go mod download
 
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux go build  -o moneytree-service-customer -a -installsuffix cgo main.go
+RUN CGO_ENABLED=0 GOOS=linux go build  -o moneytree-service-customer -a -installsuffix cgo main.go repository.go handler.go
 
 FROM scratch
 

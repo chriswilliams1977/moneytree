@@ -8,11 +8,10 @@ import (
 	"os"
 
 	pb "github.com/chriswilliams1977/moneytree/customer-service/proto/customer"
-	"google.golang.org/grpc"
+	micro "github.com/micro/go-micro"
 )
 
 const (
-	address         = "localhost:50051"
 	defaultFilename = "customer.json"
 )
 
@@ -28,14 +27,11 @@ func parseFile(file string) (*pb.Customer, error) {
 
 func main() {
 
-	// Set up a connection to the server.
-	conn, err := grpc.Dial(address, grpc.WithInsecure())
-	if err != nil {
-		log.Fatalf("Did not connect: %v", err)
-	}
-	defer conn.Close()
+	service := micro.NewService(micro.Name("go.micro.srv.customer.client"))
+	service.Init()
 
-	client := pb.NewCustomerServiceClient(conn)
+	//this is the service connecting too so name must be same as micro.Name("go.micro.srv.consignment")
+	client := pb.NewCustomerServiceClient("go.micro.srv.customer", service.Client())
 
 	// Contact the server and print out its response.
 	file := defaultFilename
