@@ -7,7 +7,7 @@ import (
 	"log"
 	"os"
 
-	pb "github.com/chriswilliams1977/moneytree/customer-service/proto/customer"
+	pb "github.com/chriswilliams1977/protobufs/protos/customer"
 	micro "github.com/micro/go-micro"
 )
 
