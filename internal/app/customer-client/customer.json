@@ -2,10 +2,11 @@
     "first_name": "Chris",
     "last_name": "Williams",
     "addresses": [
-      { "address_line_1": "cust001", "address_line_2": "user001", "zip_code": "Manchester, United Kingdom", "city": "Amsterdam", "country":"Netherlands"}
+      { "address_line_1": "cust001", "address_line_2": "Achterstraat", "zip_code": "4147AC", "city": "Asperen", "country":"Netherlands"}
     ],
     "phone_numbers": [
         "0615208075", "0031615208075"
       ],
-    "email_address": "chriswilliams1977@gmail.com"
-  }
+    "email_address": "chriswilliams1977@gmail.com",
+    "account_number": "NL57ABNA00000000"
+}

@@ -1,45 +1,32 @@
 package main
 
 import (
-	"context"
 	"fmt"
-	"log"
-	"os"
 
-	pb "github.com/chriswilliams1977/moneytree-protos/account"
+	accountpb "github.com/chriswilliams1977/moneytree-protos/account"
 	"github.com/micro/go-micro"
 )
 
-const (
-	defaultHost = "datastore:27017"
-)
 
 func main() {
+
+	repo := &Repository{}
+
 	srv := micro.NewService(
+
+		// This name must match the package name given in your protobuf definition
 		micro.Name("moneytree.svc.account"),
 	)
 
 	srv.Init()
 
-	uri := os.Getenv("DB_HOST")
-	if uri == "" {
-		uri = defaultHost
-	}
-	client, err := CreateClient(uri)
-	if err != nil {
-		log.Panic(err)
-	}
-	defer client.Disconnect(context.TODO())
 
-	vesselCollection := client.Database("moneytree").Collection("account")
-	repository := &VesselRepository{
-		vesselCollection,
-	}
 
-	// Register our implementation with
-	pb.RegisterVesselServiceHandler(srv.Server(), &handler{repository})
+	// Register our implementation with 
+	accountpb.RegisterAccountServiceHandler(srv.Server(), &handler{repo})
 
 	if err := srv.Run(); err != nil {
 		fmt.Println(err)
 	}
+
 }

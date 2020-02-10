@@ -1,47 +1,44 @@
 package main
 
 import (
-	"context"
-
-	pb "github.com/chriswilliams1977/moneytree-protos/account"
-	customerpb "github.com/chriswilliams1977/moneytree-protos/customer"
-	"go.mongodb.org/mongo-driver/mongo"
-	"gopkg.in/mgo.v2/bson"
+	accountpb "github.com/chriswilliams1977/moneytree-protos/account"
+	"log"
 )
 
+//interface to define data a repo can handle
 type repository interface {
-	Create(customer *customerpb.Customer) error
-	Get(customer And *customerpb.Customer) (account *pb.Account)
+	Create(*accountpb.Account) (*accountpb.Account, error)
+	GetAll() ([]*accountpb.Account, error)
+	GetById(id string) (*accountpb.Account, error)
 }
 
-// VesselRepository ...
-type AccountRepository struct {
-	collection *mongo.Collection
+// Repository ...
+type Repository struct {
+	account *accountpb.Account
+	accounts []*accountpb.Account
 }
 
-// FindAvailable - checks a specification against a map of vessels,
-// if capacity and max weight are below a vessels capacity and max weight,
-// then return that vessel.
-func (repository *AccountRepository) Get(customer *customerpb.Customer) (*pb.Account, error) {
-	filter := bson.D{{
-		"capacity",
-		bson.D{{
-			"$lte",
-			spec.Capacity,
-		}, {
-			"$lte",
-			spec.MaxWeight,
-		}},
-	}}
-	var vessel *pb.Vessel
-	if err := repository.collection.FindOne(context.TODO(), filter).Decode(&vessel); err != nil {
-		return nil, err
+// Create a new account
+func (repo *Repository) Create(account *accountpb.Account) (*accountpb.Account, error) {
+	updated := append(repo.accounts, account)
+	repo.accounts = updated
+	return account, nil
+}
+
+// Get list of account based on customer,
+// if customer name matches account,
+// then return that account.
+func (repo *Repository) GetAll() ([]*accountpb.Account, error){
+	return repo.accounts, nil
+}
+
+func (repo *Repository) GetById(id string) (*accountpb.Account, error) {
+	for _, account := range repo.accounts{
+		if id == account.Number{
+			log.Println("account is:", account)
+			repo.account = account
+		}
 	}
-	return vessel, nil
+	return repo.account, nil
 }
 
-// Create a new vessel
-func (repository *AccountRepository) Create(customer *customerpb.Customer) error {
-	_, err := repository.collection.InsertOne(context.TODO(), vessel)
-	return err
-}

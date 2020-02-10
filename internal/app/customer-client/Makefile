@@ -4,6 +4,7 @@
 #Initialize service: service.Init()
 #Create new client: client := pb.NewCustomerServiceClient("go.micro.srv.customer", service.Client())
 #Note: Import protobufs from external repo
+#To clean protos in pkg run go clean -modcache
 build:
 	GOOS=linux GOARCH=amd64 go build
 	docker build -t customer-client .

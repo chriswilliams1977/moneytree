@@ -14,4 +14,4 @@ build:
 	docker build -t customer-service .
 
 run:
-	docker run -p 50052:50051 -e MICRO_SERVER_ADDRESS=:50051 customer-service
+	docker run -p 50053:50051 -e MICRO_SERVER_ADDRESS=:50051 customer-service
